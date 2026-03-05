@@ -92,6 +92,34 @@ pub struct Transaction {
 	pub time_since_epoch: Duration,
 }
 
+impl Transaction {
+	/// Creates a new Transaction instance.
+	///
+	/// This is primarily useful for testing purposes, allowing users of the library
+	/// to manually construct Transaction objects.
+	///
+	/// # Arguments
+	///
+	/// * `id` - The unique identifier for the payment
+	/// * `status` - The transaction status (Pending, Completed, or Failed)
+	/// * `outbound` - Whether the payment is outbound (true) or inbound (false)
+	/// * `amount` - The optional amount of the payment
+	/// * `fee` - The optional fee paid for the payment
+	/// * `payment_type` - The type of payment and its associated metadata
+	/// * `time_since_epoch` - The time the transaction was created
+	pub fn new(
+		id: PaymentId,
+		status: TxStatus,
+		outbound: bool,
+		amount: Option<Amount>,
+		fee: Option<Amount>,
+		payment_type: PaymentType,
+		time_since_epoch: Duration,
+	) -> Self {
+		Transaction { id, status, outbound, amount, fee, payment_type, time_since_epoch }
+	}
+}
+
 /// A [Transaction] that is stored in the database. We have to modify the `Transaction` type
 /// to have types that all implement `Writeable` and `Readable` so that we can store it in the database.
 #[derive(Debug, Clone)]
